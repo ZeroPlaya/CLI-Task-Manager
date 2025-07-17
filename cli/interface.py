@@ -27,7 +27,8 @@ def cli_input():
         elif user_input == "2":  # List Tasks w/ Filter
             filters = {}
             priority = input("Priority (Low/Medium/High or blank): ").strip()
-            status = input("Status (Pending/In Progress/Completed or blank): ").strip()
+            status = input("Status (Pending/In Progress/Completed or blank): "
+                           ).strip()
             due = input("Due Date (YYYY-MM-DD or blank): ").strip()
 
             if priority:
@@ -36,7 +37,8 @@ def cli_input():
                 filters['status'] = status
             if due:
                 try:
-                    filters['due_date'] = datetime.strptime(due, "%Y-%m-%d").date()
+                    filters['due_date'] = datetime.strptime(due, "%Y-%m-%d"
+                                                            ).date()
                 except ValueError:
                     print("Invalid date filter. Ignoring due date filter.")
 
@@ -46,7 +48,8 @@ def cli_input():
             title = input("Title: ").strip()
             description = input("Description (optional): ").strip()
             due = input("Due Date (YYYY-MM-DD) or blank: ").strip()
-            priority = input("Priority (Low/Medium/High) or blank [Medium]: ").strip() or "Medium"
+            priority = input("Priority (Low/Medium/High) or blank [Medium]: "
+                             ).strip() or "Medium"
             status = "Pending"
 
             due_date = None
@@ -56,7 +59,7 @@ def cli_input():
                 except ValueError:
                     print("Invalid date format (YYYY-MM-DD).")
 
-            task = Task(title=title, description=description, 
+            task = Task(title=title, description=description,
                         due_date=due_date, priority=priority, status=status)
             manager.add_task(task)
 
@@ -69,7 +72,7 @@ def cli_input():
                 description = input("New Description: ").strip()
                 due = input("New Due Date (YYYY-MM-DD): ").strip()
                 priority = input("New Priority (Low/Medium/High): ").strip()
-                status = input("New Status (Pending/In Progress/Completed): ").strip()
+                status = input("New Status (Pending/WIP/Done): ").strip()
 
                 if title:
                     updates['title'] = title
@@ -77,7 +80,9 @@ def cli_input():
                     updates['description'] = description
                 if due:
                     try:
-                        updates['due_date'] = datetime.strptime(due, "%Y-%m-%d").date()
+                        updates['due_date'] = (
+                            datetime.strptime(due, "%Y-%m-%d").date()
+                        )
                     except ValueError:
                         print("Invalid date format. Skipping due date update.")
                 if priority:
