@@ -1,5 +1,5 @@
-from task import Task
-from db import execute_psql
+from .task import Task
+from data.db import execute_psql
 from datetime import datetime
 
 """

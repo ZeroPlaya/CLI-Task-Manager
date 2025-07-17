@@ -1,9 +1,9 @@
-from manager import TaskManager
+from core.manager import TaskManager
 from datetime import datetime
-from task import Task
-
+from core.task import Task
 
 manager = TaskManager()
+
 
 def setup_menu():
     print("\nTask actions:")
@@ -14,6 +14,7 @@ def setup_menu():
     print("5. Mark Task as completed")
     print("6. Delete Task")
     print("7. Exit Menu")
+
 
 def cli_input():
     while True:
@@ -53,9 +54,10 @@ def cli_input():
                 try:
                     due_date = datetime.strptime(due, "%Y-%m-%d").date()
                 except ValueError:
-                    print("Invalid date format (YYYY-MM-DD). Due date will be empty.")
+                    print("Invalid date format (YYYY-MM-DD).")
 
-            task = Task(title=title, description=description, due_date=due_date, priority=priority, status=status)
+            task = Task(title=title, description=description, 
+                        due_date=due_date, priority=priority, status=status)
             manager.add_task(task)
 
         elif user_input == "4":  # Update Task
