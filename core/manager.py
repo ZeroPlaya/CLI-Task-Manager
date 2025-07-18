@@ -36,6 +36,7 @@ class TaskManager:
             print("No task records.")
             return []
 
+        print("")
         for row in rows:
             task = Task(
                 task_id=row[0],
@@ -60,16 +61,16 @@ class TaskManager:
         query = f"UPDATE tasks SET {set_col} WHERE id = %s;"
         values = [*updates.values(), task_id]
 
-        execute_psql(query, tuple(values))
+        execute_psql(query, params=tuple(values))
         updated_col = ', '.join(updates.keys())
         print(f"Updated Task {task_id}: {updated_col}")
 
     def mark_task(self, task_id):
         query = "UPDATE tasks SET status = 'Completed' WHERE id = %s;"
-        execute_psql(query, (task_id,))
+        execute_psql(query, params=(task_id,))
         print(f"Marked task {task_id} as completed.")
 
     def delete_task(self, task_id):
         query = "DELETE FROM tasks WHERE id = %s;"
-        execute_psql(query, (task_id,))
+        execute_psql(query, params=(task_id,))
         print(f"Task {task_id} deleted.")
