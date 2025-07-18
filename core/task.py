@@ -2,9 +2,15 @@ from datetime import datetime
 
 
 class Task:
-    def __init__(self, title, description="", due_date=None,
-                 priority="Medium", status="Pending",
-                 created_at=None, task_id=None):
+    def __init__(self,
+                 title,
+                 description="",
+                 due_date=None,
+                 priority="Medium",
+                 status="Pending",
+                 created_at=None,
+                 task_id=None):
+
         self.id = task_id
         self.title = title
         self.description = description

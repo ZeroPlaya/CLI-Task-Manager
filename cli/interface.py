@@ -90,14 +90,14 @@ def cli_input():
                 if status:
                     updates['status'] = status
 
-                manager.update_task_details(task_id, updates)
+                manager.update_task(task_id, updates)
             except ValueError:
                 print("Invalid Task ID.")
 
         elif user_input == "5":  # Mark Task as Completed
             try:
                 task_id = int(input("Task ID to mark as completed: ").strip())
-                manager.mark_task_completed(task_id)
+                manager.mark_task(task_id)
             except ValueError:
                 print("Invalid Task ID.")
 

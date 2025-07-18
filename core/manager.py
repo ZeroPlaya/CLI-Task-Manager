@@ -13,53 +13,38 @@ The application should support the following functionalities:
 
 
 class TaskManager:
-
     def add_task(self, task: Task):
+        params = (task.title,
+                  task.description,
+                  task.due_date,
+                  task.priority,
+                  task.status)
         query = """
         INSERT INTO tasks (title, description, due_date, priority, status)
         VALUES (%s, %s, %s, %s, %s)
         RETURNING id;
         """
-        params = (task.title, task.description, task.due_date,
-                  task.priority, task.status)
+
         task_id = execute_psql(query, params, return_id=True)
         print(f"Task ID added: {task_id}")
 
-    def list_tasks(self, filters=None):
-        query = "SELECT * FROM tasks"
-        conditions = []
-        params = []
+    def list_tasks(self):
+        query = "SELECT * FROM tasks ORDER BY created_at DESC"
+        rows = execute_psql(query, fetch_results=True)
 
-        if filters:
-            if 'priority' in filters:
-                conditions.append("priority = %s")
-                params.append(filters['priority'])
-            if 'due_date' in filters:
-                conditions.append("due_date = %s")
-                params.append(filters['due_date'])
-            if 'status' in filters:
-                conditions.append("status = %s")
-                params.append(filters['status'])
-
-        if conditions:  # Adds a WHERE clause
-            query += " WHERE " + " AND ".join(conditions)
-
-        query += " ORDER BY created_at DESC"
-
-        rows = execute_psql(query, tuple(params), fetch_results=True)
         if not rows:
             print("No task records.")
-            return
+            return []
 
         for row in rows:
             task = Task(
+                task_id=row[0],
                 title=row[1],
                 description=row[2],
                 due_date=row[3],
                 priority=row[4],
                 status=row[5],
-                created_at=row[6],
-                task_id=row[0]
+                created_at=row[6]
             )
             print(task)
 
@@ -68,14 +53,19 @@ class TaskManager:
             print("No updates.")
             return
 
-        set_col = ', '.join(f"{k} = %s" for k in updates)
-        values = list(updates.values()) + [task_id]
+        """SET column = %s, ..."""
+        col_name = [f"{column} = %s" for column in updates]
+        set_col = ', '.join(col_name)
+
         query = f"UPDATE tasks SET {set_col} WHERE id = %s;"
+        values = [*updates.values(), task_id]
+
         execute_psql(query, tuple(values))
-        print(f"Updated Task: {task_id}")
+        updated_col = ', '.join(updates.keys())
+        print(f"Updated Task {task_id}: {updated_col}")
 
     def mark_task(self, task_id):
-        query = "UPDATE tasks SET STATUS = 'Completed' WHERE id = %s;"
+        query = "UPDATE tasks SET status = 'Completed' WHERE id = %s;"
         execute_psql(query, (task_id,))
         print(f"Marked task {task_id} as completed.")
 
