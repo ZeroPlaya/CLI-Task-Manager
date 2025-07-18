@@ -6,10 +6,6 @@ from data.db import execute_psql
 manager = TaskManager()
 
 
-def handle_filter_tasks():  # List Tasks w/ Filter
-    pass
-
-
 def handle_add_task():  # Add Task
     title = input("Title: ").strip()
     description = input("Description (optional): ").strip() or None
@@ -52,6 +48,25 @@ def validate_task_id(task_id):
         return None
 
     return task_id
+
+
+def handle_filter_tasks():  # List Tasks w/ Filter
+    print("Leave empty to skip filtering by column.\n")
+
+    fields = {
+        "title": input("Title: ").strip(),
+        "description": input("Description: ").strip(),
+        "due_date": input("Due Date (YYYY-MM-DD): ").strip(),
+        "priority": input("Priority (Low/Medium/High): ").strip().capitalize(),
+        "status": input("Status (Pending/WIP/Done): ").strip().capitalize()
+    }
+
+    filters = {key: value for key, value in fields.items() if value}
+
+    if filters:
+        manager.filter_tasks(filters)
+    else:
+        print("No filters applied.")
 
 
 def handle_update_task():

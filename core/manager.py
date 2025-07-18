@@ -49,6 +49,37 @@ class TaskManager:
             )
             print(task)
 
+    def filter_tasks(self, filter: dict):
+        if not filter:
+            print("No filters provided.")
+            return
+
+        where_col = " AND ".join([f"{column} = %s" for column in filter])
+        query = f"SELECT * from tasks WHERE {where_col} "
+        query += " ORDER BY created_at DESC;"
+        value = tuple(filter.values())
+
+        statement = ", ".join(f"{col} by {val}" for col, val in filter.items())
+        print(f"Filtering {statement}")
+
+        rows = execute_psql(query, params=value, fetch_results=True)
+        if not rows:
+            print("No matching tasks found.")
+            return
+        
+        print("")
+        for row in rows:
+            task = Task(
+                task_id=row[0],
+                title=row[1],
+                description=row[2],
+                due_date=row[3],
+                priority=row[4],
+                status=row[5],
+                created_at=row[6]
+            )
+            print(task)
+
     def update_task(self, task_id, updates: dict):
         if not updates:
             print("No updates.")
