@@ -42,21 +42,17 @@ python main.py
 
 ## Project Goals
 
-- [ ] Refactor architecture  
-  - [ ] Improve modularity  
-  - [ ] Ensure meaningful return values  
+- [x] ~~Refactor architecture~~  
+  - [x] ~~Improve modularity~~  
+  - [x] ~~Ensure meaningful return values~~  
 - [ ] Input validation and error handling  
   - [ ] Validate input types and formats  
-  - [ ] Handle exceptions and edge cases  
+  - [x] ~~Handle exceptions and edge cases~~  
 - [ ] Task Features  
-  - [ ] Search by keyword (title/description)  
+  - [x] ~~Search by keyword (title/description)~~  
   - [ ] Export tasks (CSV, JSON)  
   - [ ] Add categories/tags  
   - [ ] Undo/redo functionality  
-- [ ] User Experience  
-  - [ ] User authentication  
-  - [ ] Secure, separate task storage  
-
 
 
 ### Development & Testing
