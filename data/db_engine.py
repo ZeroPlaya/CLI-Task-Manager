@@ -1,4 +1,4 @@
-from .db import execute_psql
+from data.db import execute_psql
 
 
 def create_tasks_table():

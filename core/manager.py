@@ -1,4 +1,4 @@
-from .task import Task
+from core.task import Task
 from data.db import execute_psql
 # from datetime import datetime
 
@@ -13,7 +13,7 @@ The application should support the following functionalities:
 
 
 class TaskManager:
-    def add_task(self, task: Task):
+    def add_task(self, task: Task) -> None:
         params = (task.title,
                   task.description,
                   task.due_date,
@@ -28,7 +28,7 @@ class TaskManager:
         task_id = execute_psql(query, params, return_id=True)
         print(f"Task ID added: {task_id}")
 
-    def list_tasks(self):
+    def list_tasks(self) -> list[Task]:
         query = "SELECT * FROM tasks ORDER BY created_at DESC"
         rows = execute_psql(query, fetch_results=True)
 
@@ -37,6 +37,7 @@ class TaskManager:
             return []
 
         print("")
+        tasks = []
         for row in rows:
             task = Task(
                 task_id=row[0],
@@ -48,8 +49,11 @@ class TaskManager:
                 created_at=row[6]
             )
             print(task)
+            tasks.append(task)
 
-    def filter_tasks(self, filter: dict):
+        return tasks
+
+    def filter_tasks(self, filter: dict) -> None:
         if not filter:
             print("No filters provided.")
             return
@@ -66,7 +70,7 @@ class TaskManager:
         if not rows:
             print("No matching tasks found.")
             return
-        
+
         print("")
         for row in rows:
             task = Task(
@@ -80,7 +84,7 @@ class TaskManager:
             )
             print(task)
 
-    def update_task(self, task_id, updates: dict):
+    def update_task(self, task_id: int, updates: dict) -> None:
         if not updates:
             print("No updates.")
             return
@@ -96,12 +100,12 @@ class TaskManager:
         updated_col = ', '.join(updates.keys())
         print(f"Updated Task {task_id}: {updated_col}")
 
-    def mark_task(self, task_id):
+    def mark_task(self, task_id: int) -> None:
         query = "UPDATE tasks SET status = 'Completed' WHERE id = %s;"
         execute_psql(query, params=(task_id,))
         print(f"Marked task {task_id} as completed.")
 
-    def delete_task(self, task_id):
+    def delete_task(self, task_id: int) -> None:
         query = "DELETE FROM tasks WHERE id = %s;"
         execute_psql(query, params=(task_id,))
         print(f"Task {task_id} deleted.")

@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, date
 from core.task import Task
 from core.manager import TaskManager
 from data.db import execute_psql
@@ -6,7 +6,7 @@ from data.db import execute_psql
 manager = TaskManager()
 
 
-def handle_add_task():  # Add Task
+def handle_add_task() -> None:  # Add Task
     title = input("Title: ").strip()
     description = input("Description (optional): ").strip() or None
     due = input("Due Date (YYYY-MM-DD) or blank: ").strip()
@@ -25,7 +25,7 @@ def handle_add_task():  # Add Task
     manager.add_task(task)
 
 
-def parse_date(date_str):
+def parse_date(date_str: str) -> date | None:
     if not date_str:
         return None
     try:
@@ -35,7 +35,7 @@ def parse_date(date_str):
         return None
 
 
-def validate_task_id(task_id):
+def validate_task_id(task_id: int) -> int | None:
     if not isinstance(task_id, int):
         print("Task ID must be an integer.")
         return None
@@ -50,12 +50,10 @@ def validate_task_id(task_id):
     return task_id
 
 
-def handle_filter_tasks():  # List Tasks w/ Filter
+def handle_filter_tasks() -> None:  # List Tasks w/ Filter
     print("Leave empty to skip filtering by column.\n")
 
     fields = {
-        "title": input("Title: ").strip(),
-        "description": input("Description: ").strip(),
         "due_date": input("Due Date (YYYY-MM-DD): ").strip(),
         "priority": input("Priority (Low/Medium/High): ").strip().capitalize(),
         "status": input("Status (Pending/WIP/Done): ").strip().capitalize()
@@ -69,7 +67,7 @@ def handle_filter_tasks():  # List Tasks w/ Filter
         print("No filters applied.")
 
 
-def handle_update_task():
+def handle_update_task() -> None:
     try:
         raw_id = int(input("Task ID to update: ").strip())
     except ValueError:
@@ -95,13 +93,13 @@ def handle_update_task():
     manager.update_task(raw_id, updates)
 
 
-def handle_mark_task():
+def handle_mark_task() -> None:
     try:
-        task_id = int(input("Task ID to mark as completed: ").strip())
+        raw_id = int(input("Task ID to mark as completed: ").strip())
     except ValueError:
         print("Task ID must be an integer.")
 
-    task_id = validate_task_id(task_id)
+    task_id = validate_task_id(raw_id)
     if task_id is None:
         return
 
@@ -109,13 +107,13 @@ def handle_mark_task():
     print(f"Task ID {task_id} marked as completed.")
 
 
-def handle_delete_task():
+def handle_delete_task() -> None:
     try:
-        task_id = int(input("Task ID to delete: ").strip())
+        raw_id = int(input("Task ID to delete: ").strip())
     except ValueError:
         print("Task ID must be an integer.")
 
-    task_id = validate_task_id(task_id)
+    task_id = validate_task_id(raw_id)
     if task_id is None:
         return
 
