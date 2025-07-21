@@ -1,8 +1,13 @@
-# CLI Task Manager
+<div align="center">
+  <img src="https://i.imgur.com/FeU64W0.png" alt="TaskCLI Demo" width="600"/>
+  <h1>CLI Task Manager</h1>
+</div>
+
 
 A command-line tool built with Python and PostgreSQL for exploring how to manage tasks via the terminal. This project is meant for practice and experimentation and is not intended for practical use.
 
 ---
+
 
 ## Features
 
@@ -45,24 +50,13 @@ python main.py
 - [x] ~~Refactor architecture~~  
   - [x] ~~Improve modularity~~  
   - [x] ~~Ensure meaningful return values~~  
-- [ ] Input validation and error handling  
-  - [ ] Validate input types and formats  
+- [x] Input validation and error handling  
+  - [x] Validate input types and formats  
   - [x] ~~Handle exceptions and edge cases~~  
 - [ ] Task Features  
   - [x] ~~Search by keyword (title/description)~~  
   - [ ] Export tasks (CSV, JSON)  
-  - [ ] Add categories/tags  
-  - [ ] Undo/redo functionality  
-
-
-### Development & Testing
-
-- [ ] Testing  
-  - [ ] Unit tests for core modules  
-  - [ ] Integration tests for workflows  
-- [ ] CLI Improvements  
-  - [ ] Command aliases (`ls`, `del`, etc.)  
-  - [ ] Interactive CLI interface  
+  - [x] Better CLI interface  
 - [ ] Deployment  
   - [ ] Docker containerization  
   - [ ] Cloud/API sync  
