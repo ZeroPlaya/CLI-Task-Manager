@@ -2,15 +2,6 @@ from core.task import Task
 from data.db import execute_psql
 # from datetime import datetime
 
-"""
-The application should support the following functionalities:
-1. Add a new task.
-2. List tasks with optional filtering (e.g., by due date, priority, or status).
-3. Update task details.
-4. Mark task as completed.
-5. Delete a task.
-"""
-
 
 class TaskManager:
     def add_task(self, task: Task) -> None:
@@ -48,7 +39,7 @@ class TaskManager:
                 status=row[5],
                 created_at=row[6]
             )
-            print(task)
+            # print(task)
             tasks.append(task)
 
         return tasks
@@ -101,9 +92,9 @@ class TaskManager:
         print(f"Updated Task {task_id}: {updated_col}")
 
     def mark_task(self, task_id: int) -> None:
-        query = "UPDATE tasks SET status = 'Completed' WHERE id = %s;"
+        query = "UPDATE tasks SET status = 'Done' WHERE id = %s;"
         execute_psql(query, params=(task_id,))
-        print(f"Marked task {task_id} as completed.")
+        print(f"Marked task {task_id} as done.")
 
     def delete_task(self, task_id: int) -> None:
         query = "DELETE FROM tasks WHERE id = %s;"
